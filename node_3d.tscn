@@ -1,545 +1,1210 @@
-[gd_scene load_steps=7 format=3 uid="uid://cckdtd70bjlfy"]
+[gd_scene load_steps=10 format=3 uid="uid://cckdtd70bjlfy"]
 
 [ext_resource type="Script" uid="uid://cykpkanft5f7a" path="res://camera_3d.gd" id="1_a202f"]
 [ext_resource type="Material" uid="uid://bwgbjb1wopgr8" path="res://m_floor.tres" id="2_a0tk4"]
 [ext_resource type="Material" uid="uid://dmxqm18vr0ag8" path="res://m_wall.tres" id="3_a0tk4"]
+[ext_resource type="Texture2D" uid="uid://drj1oyx2tlwg6" path="res://ceiling.png" id="3_r3fl7"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_a202f"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-
-[sub_resource type="Sky" id="Sky_noarx"]
-sky_material = SubResource("ProceduralSkyMaterial_a202f")
-
-[sub_resource type="Environment" id="Environment_a0tk4"]
-background_mode = 2
-sky = SubResource("Sky_noarx")
-tonemap_mode = 2
+[sub_resource type="Environment" id="Environment_r3fl7"]
+ssao_enabled = true
+ssao_radius = 2.0
 glow_enabled = true
+fog_enabled = true
+fog_density = 0.001
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a0tk4"]
+radius = 0.3
+radial_segments = 16
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a0tk4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jka67"]
+albedo_texture = ExtResource("3_r3fl7")
+uv1_scale = Vector3(0.2, 0.2, 0.2)
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3fl7"]
+emission_enabled = true
+emission = Color(0.7636, 0.844407, 0.92, 1)
+emission_energy_multiplier = 8.0
 
 [node name="Node3D" type="Node3D"]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
-shadow_enabled = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_a0tk4")
+environment = SubResource("Environment_r3fl7")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87151, 7.862)
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 7.862)
+safe_margin = 0.1
 script = ExtResource("1_a202f")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.371506, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_a0tk4")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("BoxShape3D_a0tk4")
 
 [node name="floor" type="CSGBox3D" parent="."]
 material_override = ExtResource("2_a0tk4")
 size = Vector3(100, 1, 100)
 
+[node name="ceiling" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+material_override = SubResource("StandardMaterial3D_jka67")
+size = Vector3(100, 1, 100)
+
 [node name="wall1" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall2" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall7" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall8" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall9" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall10" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall11" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall12" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall13" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall14" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall15" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall16" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall17" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall18" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall3" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall4" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall5" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall6" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall19" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall20" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall21" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall22" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall23" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall24" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall25" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall26" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall27" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall28" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall29" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall30" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall31" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall32" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall33" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall34" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall35" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall36" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall37" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall38" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall39" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall40" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall41" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall42" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -15, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall43" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall44" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall45" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall46" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall47" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall48" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall49" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall50" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall51" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall52" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall53" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall54" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall55" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall56" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -30, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall57" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall58" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -45, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall59" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall60" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -45, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall61" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall62" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -45, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall63" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall64" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -45, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall65" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall66" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -45, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall67" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall68" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -45, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall69" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall70" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -45, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall71" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall72" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall73" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall74" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall75" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall76" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall77" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall78" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall79" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall80" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall81" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall82" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall83" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall84" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 30, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall85" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall86" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, -15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall87" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall88" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 15)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall89" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall90" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall91" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall92" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall93" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall94" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, -30)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall95" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall96" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, 45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall97" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="wall98" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 45, 2, -45)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(10, 3, 0.5)
 
 [node name="side-wall1" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 50, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(100, 3, 0.5)
 
 [node name="side-wall2" type="CSGBox3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -50, 2, 0)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(100, 3, 0.5)
 
 [node name="side-wall3" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -50)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(100, 3, 0.5)
 
 [node name="side-wall4" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 50)
 material_override = ExtResource("3_a0tk4")
+use_collision = true
 size = Vector3(100, 3, 0.5)
+
+[node name="lamp1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.5, 3.54, 7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp1"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp1"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.5, 3.54, 7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp2"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp2"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 22.5, 3.54, 7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp3"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp3"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -22.5, 3.54, 7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp4"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp4"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 37.5, 3.54, 7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp5"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp5"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp6" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.5, 3.54, 7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp6"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp6"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp7" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.5, 3.54, -7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp7"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp7"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp8" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.5, 3.54, -7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp8"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp8"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp9" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 22.5, 3.54, -7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp9"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp9"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp10" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -22.5, 3.54, -7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp10"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp10"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp11" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 37.5, 3.54, -7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp11"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp11"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp12" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.5, 3.54, -7.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp12"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp12"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp13" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.5, 3.54, 22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp13"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp13"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp14" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.5, 3.54, 22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp14"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp14"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp15" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 22.5, 3.54, 22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp15"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp15"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp16" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -22.5, 3.54, 22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp16"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp16"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp17" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 37.5, 3.54, 22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp17"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp17"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp18" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.5, 3.54, 22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp18"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp18"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp19" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.5, 3.54, -22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp19"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp19"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp20" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.5, 3.54, -22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp20"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp20"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp21" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 22.5, 3.54, -22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp21"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp21"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp22" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -22.5, 3.54, -22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp22"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp22"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp23" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 37.5, 3.54, -22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp23"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp23"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp24" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.5, 3.54, -22.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp24"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp24"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp25" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.5, 3.54, 37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp25"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp25"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp26" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.5, 3.54, 37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp26"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp26"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp27" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 22.5, 3.54, 37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp27"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp27"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp28" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -22.5, 3.54, 37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp28"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp28"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp29" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 37.5, 3.54, 37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp29"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp29"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp30" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.5, 3.54, 37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp30"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp30"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp31" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 7.5, 3.54, -37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp31"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp31"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp32" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.5, 3.54, -37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp32"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp32"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp33" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 22.5, 3.54, -37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp33"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp33"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp34" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -22.5, 3.54, -37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp34"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp34"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp35" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 37.5, 3.54, -37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp35"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp35"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
+
+[node name="lamp36" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -37.5, 3.54, -37.5)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lamp36"]
+light_color = Color(0.77, 0.877333, 1, 1)
+light_energy = 10.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 10.0
+spot_angle = 80.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="lamp36"]
+material_override = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1, 1, 0.1)
