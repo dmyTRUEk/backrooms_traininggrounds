@@ -1,7 +1,23 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bwgbjb1wopgr8"]
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://bwgbjb1wopgr8"]
 
-[ext_resource type="Texture2D" uid="uid://bqcisb2yyyi4e" path="res://floor1.jpg" id="1_jxrh6"]
+[ext_resource type="Texture2D" uid="uid://bfjd7pudthq26" path="res://floor1.jpg" id="1_jxrh6"]
+[ext_resource type="Texture2D" uid="uid://ycyu038d6y3t" path="res://floor1AO.bmp" id="2_g0iag"]
+[ext_resource type="Texture2D" uid="uid://ee4c0k5ltnfp" path="res://floor1normal.bmp" id="2_yvsx2"]
+[ext_resource type="Texture2D" uid="uid://d4eal3ve04m6r" path="res://floor1HIGHT.bmp" id="3_nvltk"]
 
 [resource]
 albedo_texture = ExtResource("1_jxrh6")
+metallic_specular = 0.0
+normal_enabled = true
+normal_scale = 1.15
+normal_texture = ExtResource("2_yvsx2")
+ao_enabled = true
+ao_light_affect = 0.34
+ao_texture = ExtResource("2_g0iag")
+heightmap_scale = 11.512
+heightmap_deep_parallax = true
+heightmap_min_layers = 6
+heightmap_max_layers = 64
+heightmap_texture = ExtResource("3_nvltk")
 uv1_triplanar = true
+texture_filter = 5
