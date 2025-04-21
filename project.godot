@@ -11,17 +11,17 @@ config_version=5
 [application]
 
 config/name="backrooms_traininggrounds"
-run/main_scene="uid://cckdtd70bjlfy"
+run/main_scene="uid://dm1lgnnws2ceo"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=320
-window/size/viewport_height=240
+window/size/viewport_width=720
+window/size/viewport_height=540
 window/size/mode=3
 window/size/resizable=false
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 
 [input]
 
@@ -52,4 +52,17 @@ move_right={
 
 [rendering]
 
+global_illumination/voxel_gi/quality=1
+textures/default_filters/anisotropic_filtering_level=4
+environment/ssao/quality=4
+environment/ssao/adaptive_target=1.0
+environment/ssao/fadeout_from=100.0
+environment/ssao/fadeout_to=1000.0
+environment/ssil/quality=4
+environment/ssil/half_size=false
+environment/ssil/adaptive_target=1.0
 anti_aliasing/quality/msaa_3d=3
+environment/glow/upscale_mode.mobile=1
+environment/screen_space_reflection/roughness_quality=3
+environment/subsurface_scattering/subsurface_scattering_quality=3
+global_illumination/sdfgi/probe_ray_count=5
