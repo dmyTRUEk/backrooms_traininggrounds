@@ -17,6 +17,7 @@ radius = 0.3
 radial_segments = 16
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a0tk4"]
+size = Vector3(0.7, 1, 0.7)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jka67"]
 albedo_texture = ExtResource("3_r3fl7")
@@ -40,8 +41,10 @@ script = ExtResource("1_a202f")
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.371506, 0)
+fov = 60.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+visible = false
 mesh = SubResource("CapsuleMesh_a0tk4")
 skeleton = NodePath("")
 
