@@ -46,5 +46,5 @@ func _physics_process(delta):
 	#self.transform.origin.y = 2
 	
 	var image = get_viewport().get_texture().get_image()
-	image.save_jpg("screenshots/r001/s_%06d_%s.jpg" % [step_n, movement_str], .99)
+	image.save_jpg("screenshots/rXXX/s_%06d_%s.jpg" % [step_n, movement_str], .99)
 	step_n += 1
